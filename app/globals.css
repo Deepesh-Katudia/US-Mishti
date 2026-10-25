@@ -1,0 +1,232 @@
+@import "tailwindcss";
+
+@theme {
+  /* "Midnight ink": near-black with a whisper of blue, so gold and diamonds carry the colour. */
+  --color-night: #07090e;
+  --color-navy: #0b0e16;
+  --color-navy-2: #121622;
+  --color-navy-3: #1a2030;
+  --color-slate: #2b3245;
+  --color-gold: #d4b26a;
+  --color-gold-soft: #e9d49b;
+  --color-gold-pale: #f3e3b5;
+  --color-gold-deep: #a8853f;
+  --color-ivory: #f7f2e8;
+  --color-mist: #c4c9d6;
+
+  --font-display: var(--font-bodoni), "Didot", "Times New Roman", serif;
+  --font-script: var(--font-pinyon), "Snell Roundhand", cursive;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  color-scheme: dark;
+  --gold-gradient: linear-gradient(115deg, #a8853f 0%, #d4b26a 28%, #f3e3b5 50%, #d4b26a 72%, #a8853f 100%);
+}
+
+html {
+  background: var(--color-night);
+}
+
+body {
+  background: var(--color-navy);
+  color: var(--color-ivory);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Bodoni's display optical size has hairlines that vanish on dark grounds; a lower
+   optical size keeps the luxury contrast while staying legible. */
+.font-display {
+  font-optical-sizing: none;
+  font-variation-settings: "opsz" 14;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-night);
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+@utility text-gold {
+  background: var(--gold-gradient);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Handwritten gold accent for key words in headlines. */
+@utility script-accent {
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.12em;
+  letter-spacing: 0;
+  line-height: 1;
+  padding-inline: 0.06em;
+  background: var(--gold-gradient);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 14px rgb(0 0 0 / 0.55));
+}
+
+@utility gold-shimmer {
+  animation: shimmer 6s linear infinite;
+}
+
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+@utility hairline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(212 178 106 / 0.6), transparent);
+}
+
+@utility grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes sheen {
+  from {
+    transform: translateX(-120%) skewX(-20deg);
+  }
+  to {
+    transform: translateX(220%) skewX(-20deg);
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.4) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) rotate(45deg);
+  }
+}
+
+.marquee-track {
+  animation: marquee 38s linear infinite;
+}
+
+/* Gold-foil button */
+.btn-gold {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--gold-gradient);
+  background-size: 200% 100%;
+  color: var(--color-night);
+  transition:
+    background-position 0.8s var(--ease-out-expo),
+    transform 0.4s var(--ease-out-expo),
+    box-shadow 0.4s var(--ease-out-expo);
+}
+.btn-gold:hover {
+  background-position: 100% 0;
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px -16px rgb(212 178 106 / 0.7);
+}
+.btn-gold:active {
+  transform: translateY(0);
+}
+
+.btn-ghost {
+  border: 1px solid rgb(212 178 106 / 0.45);
+  color: var(--color-ivory);
+  transition:
+    border-color 0.4s,
+    background-color 0.4s,
+    color 0.4s;
+}
+.btn-ghost:hover {
+  border-color: var(--color-gold);
+  background-color: rgb(212 178 106 / 0.08);
+  color: var(--color-gold-pale);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+/* Jewel-tray card sheen */
+.sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.55), transparent);
+  transform: translateX(-120%) skewX(-20deg);
+  pointer-events: none;
+}
+.sheen:hover::after {
+  animation: sheen 0.9s var(--ease-out-expo);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(30%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
