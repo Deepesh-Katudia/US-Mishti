@@ -51,12 +51,14 @@ export function Craft() {
   return (
     <section id="craft" ref={root} className="relative bg-night py-28 md:py-40" aria-label="The Craft">
       <div className="mx-auto max-w-7xl px-4 sm:px-8">
-        <div className="mb-20 max-w-2xl">
+        {/* Full-width, single-line headline on desktop; wraps naturally on small screens. */}
+        <div className="mb-20">
           <p className="eyebrow mb-6">The Craft</p>
           <SplitHeading
-            lines={["From rough crystal", "to *radiant* heirloom."]}
-            className="font-display text-[clamp(2.4rem,5.5vw,4.75rem)] leading-[1.05]"
+            lines={["From rough crystal to *radiant* heirloom."]}
+            className="font-display text-[clamp(2.4rem,4.3vw,4.15rem)] leading-[1.05] lg:whitespace-nowrap"
           />
+          <span aria-hidden className="hairline mt-10 block w-full" />
         </div>
 
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
