@@ -1,7 +1,7 @@
-import { Counter } from "@/components/motion/Counter";
 import { Reveal } from "@/components/motion/Reveal";
 import { SplitHeading } from "@/components/motion/SplitHeading";
-import { MARKETS, STATS } from "@/lib/content";
+import { StatsBand } from "./StatsBand";
+import { MARKETS } from "@/lib/content";
 
 export function Heritage() {
   return (
@@ -16,7 +16,7 @@ export function Heritage() {
         </div>
         <Reveal className="space-y-6 text-mist lg:col-span-5 lg:pt-16" stagger={0.15}>
           <p className="text-xl leading-relaxed text-ivory">
-            <span className="script-accent text-3xl">
+            <span className="script-accent text-[2.6rem] leading-none">
               US Mishti
             </span>{" "}
             is the American house of DiaHearts Ltd — the London platform trusted by jewellers, traders and retailers to
@@ -29,20 +29,7 @@ export function Heritage() {
         </Reveal>
       </div>
 
-      <Reveal
-        as="dl"
-        className="mx-auto mt-24 grid max-w-7xl grid-cols-2 gap-px overflow-hidden border-y border-gold/15 bg-gold/15 px-0 sm:px-8 md:grid-cols-4"
-        stagger={0.1}
-      >
-        {STATS.map((stat) => (
-          <div key={stat.label} className="flex flex-col gap-2 bg-navy px-4 py-10 md:px-8">
-            <dt className="order-2 text-sm font-semibold uppercase tracking-[0.22em] text-mist">{stat.label}</dt>
-            <dd className="order-1 font-display text-5xl font-normal text-gold md:text-6xl">
-              <Counter value={stat.value} suffix={stat.suffix} />
-            </dd>
-          </div>
-        ))}
-      </Reveal>
+      <StatsBand />
 
       <div className="mt-20 overflow-hidden" aria-label="Markets served">
         <div className="marquee-track flex w-max gap-12 whitespace-nowrap font-display text-3xl font-normal italic text-ivory/25 md:text-5xl">
