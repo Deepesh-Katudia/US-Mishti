@@ -206,7 +206,8 @@ html.lenis body {
   transform: translateX(-120%) skewX(-20deg);
   pointer-events: none;
 }
-.sheen:hover::after {
+.sheen:hover::after,
+.group:hover > .sheen::after {
   animation: sheen 0.9s var(--ease-out-expo);
 }
 

@@ -2,10 +2,12 @@
 
 import { useMemo, useRef, type MutableRefObject } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment, Float, Lightformer, Sparkles } from "@react-three/drei";
+import { Float, Sparkles } from "@react-three/drei";
 import { Bloom, EffectComposer, Vignette } from "@react-three/postprocessing";
 import * as THREE from "three";
-import { createBrilliantGeometry } from "./brilliantGeometry";
+import { createCutGeometry } from "./cutGeometry";
+import { SHAPE_SPECS } from "./shapeSpecs";
+import { GemMaterial, Studio, createGlowTexture } from "./studio";
 
 export interface HeroCanvasProps {
   /** 0 → 1 scroll progress through the hero, written by the Hero section. */
@@ -16,7 +18,7 @@ const BASE_SPIN = 0.18;
 
 function Diamond({ progress }: HeroCanvasProps) {
   const mesh = useRef<THREE.Mesh>(null);
-  const geometry = useMemo(() => createBrilliantGeometry(), []);
+  const geometry = useMemo(() => createCutGeometry(SHAPE_SPECS.round), []);
 
   useFrame((state, delta) => {
     const m = mesh.current;
@@ -42,42 +44,10 @@ function Diamond({ progress }: HeroCanvasProps) {
   return (
     <Float speed={1.4} rotationIntensity={0.15} floatIntensity={0.6}>
       <mesh ref={mesh} geometry={geometry}>
-        <meshPhysicalMaterial
-          color="#ffffff"
-          transmission={1}
-          thickness={0.9}
-          roughness={0}
-          ior={2.42}
-          dispersion={4}
-          iridescence={0.35}
-          iridescenceIOR={1.6}
-          clearcoat={1}
-          envMapIntensity={2.2}
-          flatShading
-        />
+        <GemMaterial />
       </mesh>
     </Float>
   );
-}
-
-function createGlowTexture(): THREE.CanvasTexture {
-  const size = 1024;
-  const canvas = document.createElement("canvas");
-  canvas.width = canvas.height = size;
-  const ctx = canvas.getContext("2d")!;
-  // Opaque on purpose: transmission only refracts opaque geometry.
-  ctx.fillStyle = "#0b0e16";
-  ctx.fillRect(0, 0, size, size);
-  const g = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size * 0.32);
-  g.addColorStop(0, "rgba(243,227,181,0.8)");
-  g.addColorStop(0.3, "rgba(212,178,106,0.45)");
-  g.addColorStop(0.65, "rgba(43,50,69,0.4)");
-  g.addColorStop(1, "rgba(11,14,22,0)");
-  ctx.fillStyle = g;
-  ctx.fillRect(0, 0, size, size);
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  return texture;
 }
 
 /** A warm halo behind the stone — gives the transmission something golden to refract. */
@@ -101,24 +71,6 @@ function Halo({ progress }: HeroCanvasProps) {
       <planeGeometry args={[34, 34]} />
       <meshBasicMaterial map={texture} toneMapped={false} />
     </mesh>
-  );
-}
-
-/** Procedural studio lighting — warm gold strips and cool fills, no HDR download. */
-function Studio() {
-  return (
-    <Environment resolution={512} frames={1}>
-      <color attach="background" args={["#05060a"]} />
-      {/* Thin, hard-edged strips create the crisp light/dark facet contrast real diamonds have. */}
-      {[-4, -2, 0, 2, 4].map((x) => (
-        <Lightformer key={x} form="rect" intensity={10} color="#ffffff" position={[x, 4, -3]} scale={[0.35, 6, 1]} />
-      ))}
-      <Lightformer form="rect" intensity={6} color="#f3e3b5" position={[0, 6, 0]} rotation-x={Math.PI / 2} scale={[8, 0.6, 1]} />
-      <Lightformer form="rect" intensity={5} color="#d4b26a" position={[-6, 0, 2]} rotation-y={Math.PI / 2} scale={[0.5, 8, 1]} />
-      <Lightformer form="rect" intensity={4} color="#aab3d1" position={[6, 0, 2]} rotation-y={-Math.PI / 2} scale={[0.5, 8, 1]} />
-      <Lightformer form="ring" intensity={6} color="#ffffff" position={[0, 0, 7]} scale={2.5} />
-      <Lightformer form="circle" intensity={12} color="#ffe9b8" position={[3, 4, 5]} scale={0.8} />
-    </Environment>
   );
 }
 

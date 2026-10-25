@@ -65,31 +65,93 @@ export const COLLECTIONS: readonly Collection[] = [
 export const findCollection = (slug: string): Collection | undefined =>
   COLLECTIONS.find((c) => c.slug === slug);
 
+export type ShapeId =
+  | "round"
+  | "princess"
+  | "oval"
+  | "emerald"
+  | "cushion"
+  | "pear"
+  | "heart"
+  | "marquise"
+  | "radiant"
+  | "asscher"
+  | "trilliant"
+  | "baguette";
+
 export interface Shape {
+  id: ShapeId;
   name: string;
   image: string;
   note: string;
+  cut: "Brilliant" | "Step" | "Modified brilliant";
+  facets: number;
+  /** Typical length-to-width ratio. */
+  ratio: string;
+  description: string;
 }
 
-const shape = (name: string, file: string, note: string): Shape => ({
-  name,
-  image: `/images/shape_pic/${file}.webp`,
-  note,
-});
-
 export const SHAPES: readonly Shape[] = [
-  shape("Round", "round-1", "57 facets of maximum fire"),
-  shape("Princess", "princess-1", "Crisp, modern brilliance"),
-  shape("Oval", "oval-1", "Elongates the hand"),
-  shape("Emerald", "emerald-1", "Hall-of-mirrors clarity"),
-  shape("Cushion", "cushion-1", "Romantic pillowed corners"),
-  shape("Pear", "pear-1", "A teardrop of light"),
-  shape("Heart", "heart-1", "The eternal symbol"),
-  shape("Marquise", "marquise-1", "Regal, royal heritage"),
-  shape("Radiant", "radiant-1", "Brilliance meets structure"),
-  shape("Asscher", "asscher-1", "Art-deco step cut"),
-  shape("Trilliant", "trilliant", "Bold triangular fire"),
-  shape("Baguette", "baguette", "Architectural accents"),
+  {
+    id: "round", name: "Round", image: "/images/shape_pic/round-1.webp", note: "57 facets of maximum fire",
+    cut: "Brilliant", facets: 57, ratio: "1.00 – 1.02",
+    description: "The most studied cut in history, engineered to return the greatest possible brilliance. Timeless in solitaires, halos and eternity bands.",
+  },
+  {
+    id: "princess", name: "Princess", image: "/images/shape_pic/princess-1.webp", note: "Crisp, modern brilliance",
+    cut: "Modified brilliant", facets: 58, ratio: "1.00 – 1.05",
+    description: "A square silhouette with a chevron pavilion that throws a vivid, cross-shaped sparkle. Clean lines for contemporary settings.",
+  },
+  {
+    id: "oval", name: "Oval", image: "/images/shape_pic/oval-1.webp", note: "Elongates the hand",
+    cut: "Modified brilliant", facets: 58, ratio: "1.35 – 1.50",
+    description: "Round-brilliant fire in a graceful elongated form that looks larger per carat and flatters the finger.",
+  },
+  {
+    id: "emerald", name: "Emerald", image: "/images/shape_pic/emerald-1.webp", note: "Hall-of-mirrors clarity",
+    cut: "Step", facets: 57, ratio: "1.30 – 1.50",
+    description: "Long, parallel step facets create broad flashes of light — a 'hall of mirrors' that rewards exceptional clarity.",
+  },
+  {
+    id: "cushion", name: "Cushion", image: "/images/shape_pic/cushion-1.webp", note: "Romantic pillowed corners",
+    cut: "Modified brilliant", facets: 58, ratio: "1.00 – 1.10",
+    description: "Softly rounded corners and large facets give a romantic, candle-lit glow with heritage charm.",
+  },
+  {
+    id: "pear", name: "Pear", image: "/images/shape_pic/pear-1.webp", note: "A teardrop of light",
+    cut: "Modified brilliant", facets: 58, ratio: "1.45 – 1.75",
+    description: "Half round, half marquise: a teardrop that combines brilliance with an elegant, slimming silhouette.",
+  },
+  {
+    id: "heart", name: "Heart", image: "/images/shape_pic/heart-1.webp", note: "The eternal symbol",
+    cut: "Modified brilliant", facets: 59, ratio: "0.90 – 1.10",
+    description: "The most romantic of shapes, demanding a master cutter's symmetry for a crisp cleft and even lobes.",
+  },
+  {
+    id: "marquise", name: "Marquise", image: "/images/shape_pic/marquise-1.webp", note: "Regal, royal heritage",
+    cut: "Modified brilliant", facets: 58, ratio: "1.85 – 2.10",
+    description: "Commissioned by Louis XV, the marquise maximises carat weight in a long, pointed silhouette.",
+  },
+  {
+    id: "radiant", name: "Radiant", image: "/images/shape_pic/radiant-1.webp", note: "Brilliance meets structure",
+    cut: "Modified brilliant", facets: 70, ratio: "1.00 – 1.35",
+    description: "The outline of an emerald cut with the fire of a brilliant — trimmed corners and a lively, crushed-ice sparkle.",
+  },
+  {
+    id: "asscher", name: "Asscher", image: "/images/shape_pic/asscher-1.webp", note: "Art-deco step cut",
+    cut: "Step", facets: 58, ratio: "1.00 – 1.05",
+    description: "A square step cut with deep corners that draws the eye inward in concentric, windmill-like reflections.",
+  },
+  {
+    id: "trilliant", name: "Trilliant", image: "/images/shape_pic/trilliant.webp", note: "Bold triangular fire",
+    cut: "Brilliant", facets: 50, ratio: "1.00 – 1.10",
+    description: "A triangular brilliant with gently curved sides — striking as a centre stone or as side-stone accents.",
+  },
+  {
+    id: "baguette", name: "Baguette", image: "/images/shape_pic/baguette.webp", note: "Architectural accents",
+    cut: "Step", facets: 14, ratio: "2.00 – 4.00",
+    description: "Slender, rectangular step cuts prized for clean architectural lines in channel and side-stone settings.",
+  },
 ];
 
 export interface CraftStep {

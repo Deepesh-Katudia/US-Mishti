@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Logo } from "./Logo";
+import { setPageScrollLocked } from "@/components/motion/SmoothScroll";
 import { NAV_LINKS } from "@/lib/site";
 
 const SCROLL_THRESHOLD = 40;
@@ -31,14 +32,14 @@ export function Header() {
   useEffect(() => {
     if (!isOpen) return;
     const background = [document.querySelector("main"), document.querySelector("footer")];
-    document.documentElement.style.overflow = "hidden";
+    setPageScrollLocked(true);
     background.forEach((el) => el?.setAttribute("inert", ""));
     document.querySelector<HTMLAnchorElement>("#mobile-menu a")?.focus();
 
     const onKeyDown = (e: KeyboardEvent) => e.key === "Escape" && setIsOpen(false);
     window.addEventListener("keydown", onKeyDown);
     return () => {
-      document.documentElement.style.overflow = "";
+      setPageScrollLocked(false);
       background.forEach((el) => el?.removeAttribute("inert"));
       window.removeEventListener("keydown", onKeyDown);
     };
