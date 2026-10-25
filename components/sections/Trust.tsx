@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Reveal } from "@/components/motion/Reveal";
 import { SplitHeading } from "@/components/motion/SplitHeading";
 import { CERTIFICATIONS, LOGISTICS } from "@/lib/content";
@@ -18,14 +19,29 @@ export function Trust() {
           {CERTIFICATIONS.map((cert) => (
             <div
               key={cert.code}
-              className="group relative flex flex-col items-center gap-4 border border-gold/20 px-6 py-12 text-center transition-colors duration-500 hover:border-gold/60 hover:bg-gold/[0.04]"
+              className="group relative flex flex-col items-center gap-6 border border-gold/20 bg-night/30 px-6 py-10 text-center transition-colors duration-500 hover:border-gold/60 hover:bg-gold/[0.04]"
             >
-              <span className="relative flex h-24 w-24 items-center justify-center">
+              {/* Rotating diamond frames behind the official logo */}
+              <span className="relative flex h-40 w-full items-center justify-center">
                 <span
                   aria-hidden
-                  className="absolute inset-0 rotate-45 border border-gold/50 transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:rotate-[135deg]"
+                  className="absolute h-32 w-32 rotate-45 border border-gold/40 transition-transform duration-1000 ease-[var(--ease-out-expo)] group-hover:rotate-[135deg]"
                 />
-                <span className="font-display text-3xl font-medium tracking-widest text-gold">{cert.code}</span>
+                <span
+                  aria-hidden
+                  className="absolute h-24 w-24 rotate-45 border border-gold/20 transition-transform duration-1000 ease-[var(--ease-out-expo)] group-hover:-rotate-45"
+                />
+                <Image
+                  src={cert.logo}
+                  alt={`${cert.name} logo`}
+                  width={cert.width}
+                  height={cert.height}
+                  unoptimized={cert.logo.endsWith(".svg")}
+                  // Very wide wordmarks (HRD) size by width; seal-style logos by height.
+                  className={`relative h-auto drop-shadow-[0_6px_18px_rgba(0,0,0,0.6)] transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-105 ${
+                    cert.width / cert.height > 4 ? "w-[82%]" : "max-h-20 w-auto max-w-[78%]"
+                  }`}
+                />
               </span>
               <span className="text-base text-mist">{cert.name}</span>
             </div>

@@ -244,11 +244,20 @@ export const PATHS = {
   },
 } as const;
 
-export const CERTIFICATIONS = [
-  { code: "GIA", name: "Gemological Institute of America" },
-  { code: "IGI", name: "International Gemological Institute" },
-  { code: "HRD", name: "HRD Antwerp" },
-] as const;
+export interface Certification {
+  code: string;
+  name: string;
+  /** Official logo, light-on-dark variant from the lab's own website. */
+  logo: string;
+  width: number;
+  height: number;
+}
+
+export const CERTIFICATIONS: readonly Certification[] = [
+  { code: "GIA", name: "Gemological Institute of America", logo: "/images/certifications/gia.svg", width: 546, height: 180 },
+  { code: "IGI", name: "International Gemological Institute", logo: "/images/certifications/igi.webp", width: 420, height: 173 },
+  { code: "HRD", name: "HRD Antwerp", logo: "/images/certifications/hrd.svg", width: 224, height: 33 },
+];
 
 export const LOGISTICS = ["Brink's", "Malca-Amit", "FedEx", "UPS", "DHL"] as const;
 
