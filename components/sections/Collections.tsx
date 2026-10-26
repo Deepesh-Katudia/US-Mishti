@@ -199,57 +199,61 @@ export function Collections() {
   );
 
   return (
-    <section
-      id="collections"
-      ref={root}
-      className="relative overflow-hidden bg-night lg:h-svh"
-      aria-label="The Collections"
-    >
-      {/* Giant outlined word for depth */}
-      <p
-        data-bg-word
-        aria-hidden
-        className="pointer-events-none absolute left-[4vw] top-1/2 hidden -translate-y-1/2 select-none whitespace-nowrap font-display text-[24vw] leading-none text-transparent [-webkit-text-stroke:1px_rgba(212,178,106,0.24)] lg:block"
+    // GSAP wraps pinned elements in a spacer; this React-owned wrapper keeps that DOM change
+    // out of React's reach, so navigating away doesn't crash.
+    <div>
+      <section
+        id="collections"
+        ref={root}
+        className="relative overflow-hidden bg-night lg:h-svh"
+        aria-label="The Collections"
       >
-        Collections
-      </p>
-      <div className="pointer-events-none absolute -left-40 top-1/3 h-[480px] w-[480px] rounded-full bg-gold/[0.07] blur-[120px]" />
+        {/* Giant outlined word for depth */}
+        <p
+          data-bg-word
+          aria-hidden
+          className="pointer-events-none absolute left-[4vw] top-1/2 hidden -translate-y-1/2 select-none whitespace-nowrap font-display text-[24vw] leading-none text-transparent [-webkit-text-stroke:1px_rgba(212,178,106,0.24)] lg:block"
+        >
+          Collections
+        </p>
+        <div className="pointer-events-none absolute -left-40 top-1/3 h-[480px] w-[480px] rounded-full bg-gold/[0.07] blur-[120px]" />
 
-      <div
-        ref={track}
-        className="relative flex flex-col gap-8 px-4 py-24 sm:px-8 lg:h-full lg:w-max lg:flex-row lg:items-center lg:gap-12 lg:py-0 lg:pl-[8vw] lg:pr-[8vw]"
-      >
-        <header className="flex max-w-md shrink-0 flex-col justify-center lg:w-[30vw]">
-          <p className="eyebrow mb-6">The Collections</p>
-          <SplitHeading
-            lines={["Three worlds", "of *light.*"]}
-            className="font-display text-[clamp(2.8rem,5vw,4.75rem)] leading-[1.02]"
-          />
-          <p className="mt-8 text-lg leading-relaxed text-ivory/85">
-            From earth-born rarities to responsibly grown brilliance and saturated colour — curated for the counter and
-            the collector.
-          </p>
-          <p className="mt-10 hidden items-center gap-3 text-sm font-semibold uppercase tracking-[0.3em] text-gold lg:flex">
-            Scroll to explore <span aria-hidden>⟶</span>
-          </p>
-        </header>
+        <div
+          ref={track}
+          className="relative flex flex-col gap-8 px-4 py-24 sm:px-8 lg:h-full lg:w-max lg:flex-row lg:items-center lg:gap-12 lg:py-0 lg:pl-[8vw] lg:pr-[8vw]"
+        >
+          <header className="flex max-w-md shrink-0 flex-col justify-center lg:w-[30vw]">
+            <p className="eyebrow mb-6">The Collections</p>
+            <SplitHeading
+              lines={["Three worlds", "of *light.*"]}
+              className="font-display text-[clamp(2.8rem,5vw,4.75rem)] leading-[1.02]"
+            />
+            <p className="mt-8 text-lg leading-relaxed text-ivory/85">
+              From earth-born rarities to responsibly grown brilliance and saturated colour — curated for the counter and
+              the collector.
+            </p>
+            <p className="mt-10 hidden items-center gap-3 text-sm font-semibold uppercase tracking-[0.3em] text-gold lg:flex">
+              Scroll to explore <span aria-hidden>⟶</span>
+            </p>
+          </header>
 
-        {COLLECTIONS.map((c) => (
-          <CollectionCard key={c.slug} collection={c} />
-        ))}
-        <ClosingPanel />
-      </div>
+          {COLLECTIONS.map((c) => (
+            <CollectionCard key={c.slug} collection={c} />
+          ))}
+          <ClosingPanel />
+        </div>
 
-      {/* Progress rail (desktop) */}
-      <div className="absolute inset-x-[8vw] bottom-8 hidden items-center gap-6 lg:flex" aria-hidden>
-        <span className="font-display text-xl text-gold">
-          <span ref={counter}>01</span>
-          <span className="text-ivory/40"> / {String(COLLECTIONS.length).padStart(2, "0")}</span>
-        </span>
-        <span className="relative h-px flex-1 bg-ivory/10">
-          <span data-rail className="absolute inset-0 origin-left bg-gradient-to-r from-gold-deep via-gold-pale to-gold" />
-        </span>
-      </div>
-    </section>
+        {/* Progress rail (desktop) */}
+        <div className="absolute inset-x-[8vw] bottom-8 hidden items-center gap-6 lg:flex" aria-hidden>
+          <span className="font-display text-xl text-gold">
+            <span ref={counter}>01</span>
+            <span className="text-ivory/40"> / {String(COLLECTIONS.length).padStart(2, "0")}</span>
+          </span>
+          <span className="relative h-px flex-1 bg-ivory/10">
+            <span data-rail className="absolute inset-0 origin-left bg-gradient-to-r from-gold-deep via-gold-pale to-gold" />
+          </span>
+        </div>
+      </section>
+    </div>
   );
 }

@@ -89,47 +89,54 @@ export function Hero() {
   );
 
   return (
-    <section ref={root} className="relative h-svh min-h-[640px] overflow-hidden bg-navy" aria-label="Introduction">
-      <div className="absolute inset-0">{canRender3D ? <HeroCanvas progress={progress} isActive={isOnScreen} /> : <HeroFallback />}</div>
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(7,9,14,0.55)_0%,transparent_30%,transparent_65%,rgba(11,14,22,1)_100%)]" />
-      {/* Mobile: deepen the lower half so the stacked copy keeps contrast over the glow. */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-navy via-navy/80 to-transparent md:hidden" />
-      <div data-hero-scrim className="pointer-events-none absolute inset-0 bg-navy opacity-0" />
+    // GSAP wraps pinned elements in a spacer; this React-owned wrapper keeps that DOM change
+    // out of React's reach, so navigating away doesn't crash.
+    <div>
+      <section ref={root} className="relative h-svh min-h-[640px] overflow-hidden bg-navy" aria-label="Introduction">
+        <div className="absolute inset-0">{canRender3D ? <HeroCanvas progress={progress} isActive={isOnScreen} /> : <HeroFallback />}</div>
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(7,9,14,0.55)_0%,transparent_30%,transparent_65%,rgba(11,14,22,1)_100%)]" />
+        {/* Mobile: deepen the lower half so the stacked copy keeps contrast over the glow. */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-navy via-navy/80 to-transparent md:hidden" />
+        <div data-hero-scrim className="pointer-events-none absolute inset-0 bg-navy opacity-0" />
 
-      <div
-        data-hero-copy
-        className="pointer-events-none relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-16 sm:px-8 md:pb-24"
-      >
-        <p data-hero-fade className="eyebrow mb-6">
-          {SITE.legalName} · A DiaHearts Company
-        </p>
-        <SplitHeading
-          as="h1"
-          immediate
-          delay={0.2}
-          lines={["Brilliance,", "sourced *without* *borders.*"]}
-          className="font-display text-[clamp(3rem,9vw,8.5rem)] font-normal leading-[0.92] tracking-[-0.02em]"
-        />
-        <div className="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-          <p data-hero-fade className="max-w-md text-base leading-relaxed text-mist md:text-lg">
-            Certified natural and lab-grown diamonds, rare gemstones and master craftsmanship — from Hatton Garden&apos;s
-            finest network to America&apos;s jewellers and collectors.
+        <div
+          data-hero-copy
+          className="pointer-events-none relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-16 sm:px-8 md:pb-24"
+        >
+          <p data-hero-fade className="eyebrow mb-6">
+            {SITE.legalName} · A DiaHearts Company
           </p>
-          <div data-hero-fade className="pointer-events-auto flex flex-wrap gap-3">
-            <Link href="/contact?kind=trade" className="btn-gold rounded-full px-7 py-4 text-sm font-semibold tracking-wide">
-              For Jewellers — Trade
-            </Link>
-            <Link href="/#collections" className="btn-ghost rounded-full px-7 py-4 text-sm font-semibold tracking-wide">
-              Find your diamond
-            </Link>
+          <SplitHeading
+            as="h1"
+            immediate
+            delay={0.2}
+            lines={["Brilliance,", "sourced *without* *borders.*"]}
+            className="font-display text-[clamp(3rem,9vw,8.5rem)] font-normal leading-[0.92] tracking-[-0.02em]"
+          />
+          <div className="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+            <p data-hero-fade className="max-w-md text-base leading-relaxed text-mist md:text-lg">
+              Certified natural and lab-grown diamonds, rare gemstones and master craftsmanship — from Hatton Garden&apos;s
+              finest network to America&apos;s jewellers and collectors.
+            </p>
+            <div data-hero-fade className="pointer-events-auto flex flex-wrap gap-3">
+              <a
+                href={`mailto:${SITE.contact.email}?subject=${encodeURIComponent("Trade account enquiry")}`}
+                className="btn-gold rounded-full px-7 py-4 text-sm font-semibold tracking-wide"
+              >
+                For Jewellers — Trade
+              </a>
+              <Link href="/#collections" className="btn-ghost rounded-full px-7 py-4 text-sm font-semibold tracking-wide">
+                Find your diamond
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div data-hero-cue className="absolute bottom-6 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 md:flex">
-        <span className="eyebrow text-[0.6rem] text-mist">Scroll</span>
-        <span className="h-10 w-px animate-pulse bg-gradient-to-b from-gold to-transparent" />
-      </div>
-    </section>
+        <div data-hero-cue className="absolute bottom-6 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 md:flex">
+          <span className="eyebrow text-[0.6rem] text-mist">Scroll</span>
+          <span className="h-10 w-px animate-pulse bg-gradient-to-b from-gold to-transparent" />
+        </div>
+      </section>
+    </div>
   );
 }
