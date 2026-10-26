@@ -38,10 +38,32 @@ const post = (body: unknown) =>
 
 const { POST } = await import("./route");
 
-describe("POST /api/chat", () => {
+describe("POST /api/chat (scripted mode, the default)", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    delete process.env.CHAT_MODE;
+    delete process.env.ANTHROPIC_API_KEY;
+  });
+
+  it("answers from predefined text without an API key or any API call", async () => {
+    const res = await POST(post({ messages: [{ role: "user", content: "What products do you have?" }] }));
+    expect(res.status).toBe(200);
+    expect(await res.text()).toContain("Lab-Grown Diamonds");
+    expect(streamFn).not.toHaveBeenCalled();
+    expect(recordChatUsage).not.toHaveBeenCalled();
+  });
+
+  it("still validates the request", async () => {
+    const res = await POST(post({ messages: [{ role: "system", content: "x" }] }));
+    expect(res.status).toBe(400);
+  });
+});
+
+describe("POST /api/chat (ai mode)", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.spyOn(console, "error").mockImplementation(() => {});
+    process.env.CHAT_MODE = "ai";
     process.env.ANTHROPIC_API_KEY = "test-key";
   });
 

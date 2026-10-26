@@ -3,6 +3,7 @@ import { Bodoni_Moda, Manrope, Pinyon_Script } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ChatWidget } from "@/components/chat/ChatWidget";
+import { chatMode } from "@/lib/chat/config";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { SITE } from "@/lib/site";
 import "./globals.css";
@@ -71,7 +72,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Header />
         <main id="main">{children}</main>
         <Footer />
-        <ChatWidget />
+        <ChatWidget mode={chatMode()} />
         <div className="grain" aria-hidden />
       </body>
     </html>

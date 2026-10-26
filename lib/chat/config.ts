@@ -23,3 +23,11 @@ export const CHAT_LIMITS = {
 
 /** Server-side refusal fallback is supported on these model families (not Haiku). */
 export const supportsServerFallback = (model: string): boolean => /^claude-(opus|sonnet|fable)-/.test(model);
+
+/**
+ * "scripted" (default): predefined answers from lib/chat/scripted.ts — no API key, no LLM calls, no cost.
+ * "ai": Claude-powered concierge via the Anthropic API. Opt in with CHAT_MODE=ai.
+ * Read per request so the mode can be flipped with an env change alone.
+ */
+export type ChatMode = "scripted" | "ai";
+export const chatMode = (): ChatMode => (process.env.CHAT_MODE === "ai" ? "ai" : "scripted");

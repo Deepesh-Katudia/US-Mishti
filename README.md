@@ -60,14 +60,24 @@ vercel env add NEXT_PUBLIC_SITE_URL      # e.g. https://usmishti.com
 vercel --prod
 ```
 
-## AI diamond concierge
+## Diamond concierge
 
-A chat widget (bottom right) answers buying questions, grounded in the site's own
-content (`lib/chat/knowledge.ts` is generated from `lib/content.ts` / `lib/site.ts`).
-It streams from `POST /api/chat` using the Anthropic SDK.
+A chat widget (bottom right) answers buying questions through `POST /api/chat`.
+It has two modes, selected by the `CHAT_MODE` environment variable:
 
-**Setup:** set `ANTHROPIC_API_KEY` (server-only), and run
+| Mode | When | What it does |
+| ---- | ---- | ------------ |
+| `scripted` (default) | Unset, or any value other than `ai` | Predefined answers from `lib/chat/scripted.ts`, built from `lib/content.ts` / `lib/site.ts`. **No API key, no LLM calls, no cost.** Unmatched questions get a topic menu. |
+| `ai` | `CHAT_MODE=ai` | Claude-powered answers via the Anthropic SDK, with the guardrails below. |
+
+The deployed site runs in `scripted` mode: leave `CHAT_MODE` unset on Vercel.
+To try the AI concierge locally, add `CHAT_MODE=ai` to `.env`.
+
+### AI mode
+
+**Setup:** set `CHAT_MODE=ai` and `ANTHROPIC_API_KEY` (server-only), and run
 `supabase/migrations/002_chat_usage.sql` to persist per-request usage.
+The knowledge base (`lib/chat/knowledge.ts`) is generated from the same site content.
 
 **Guardrails, cheapest first** (all tunable in `lib/chat/config.ts`):
 

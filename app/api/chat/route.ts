@@ -1,10 +1,11 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { createRateLimiter } from "@/lib/rate-limit";
 import { createUsageBudget } from "@/lib/chat/budget";
-import { CHAT_LIMITS, CHAT_MODEL, supportsServerFallback } from "@/lib/chat/config";
+import { CHAT_LIMITS, CHAT_MODEL, chatMode, supportsServerFallback } from "@/lib/chat/config";
 import { REDIRECT_REPLY, screenMessage } from "@/lib/chat/guard";
 import { estimateCostUsd, totalTokens } from "@/lib/chat/pricing";
 import { SYSTEM_PROMPT } from "@/lib/chat/prompt";
+import { scriptedReply } from "@/lib/chat/scripted";
 import { recordChatUsage } from "@/lib/chat/usage-log";
 import { parseChatRequest, toMessageParams } from "@/lib/chat/validation";
 
@@ -50,6 +51,9 @@ export async function POST(req: Request): Promise<Response> {
   }
   const parsed = parseChatRequest(body);
   if (!parsed.success) return json(400, parsed.error);
+
+  // Default mode: predefined answers only. The Anthropic API is never called.
+  if (chatMode() === "scripted") return textResponse(scriptedReply(parsed.data.at(-1)!.content).reply);
 
   // Free local screen first: no tokens spent on obvious manipulation attempts.
   const verdict = screenMessage(parsed.data.at(-1)!.content);

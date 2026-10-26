@@ -2,16 +2,23 @@
 
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { CHAT_LIMITS } from "@/lib/chat/config";
+import { CHAT_LIMITS, type ChatMode } from "@/lib/chat/config";
 import { FormattedReply } from "./FormattedReply";
 import { useConcierge } from "./useConcierge";
 
 const SUGGESTIONS = [
+  "What products do you offer?",
   "Natural or lab-grown — which suits me?",
   "Which shape looks largest per carat?",
   "What does a GIA report tell me?",
   "How do I open a trade account?",
+  "How does shipping work?",
 ] as const;
+
+const DISCLAIMER: Record<ChatMode, string> = {
+  scripted: "Automated concierge with pre-written answers. For quotes, speak to a specialist.",
+  ai: "AI concierge · answers may be imperfect · not financial advice. For quotes, speak to a specialist.",
+};
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -34,7 +41,7 @@ function TypingDots() {
   );
 }
 
-export function ChatWidget() {
+export function ChatWidget({ mode }: { mode: ChatMode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const { messages, isStreaming, notice, send, reset } = useConcierge();
@@ -153,6 +160,20 @@ export function ChatWidget() {
                   ),
                 )
               )}
+              {mode === "scripted" && messages.length > 0 && !isStreaming && (
+                <div className="flex flex-wrap gap-1.5 pt-1" aria-label="More topics">
+                  {SUGGESTIONS.filter((s) => !messages.some((m) => m.content === s)).map((s) => (
+                    <button
+                      key={s}
+                      type="button"
+                      onClick={() => submit(s)}
+                      className="rounded-full border border-gold/25 px-3 py-1 text-xs text-ivory/80 transition-colors hover:border-gold hover:bg-gold/10 hover:text-gold-pale"
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              )}
               {notice && (
                 <p role="alert" className="rounded-[4px] border border-gold/30 bg-gold/10 px-3 py-2 text-sm text-gold-pale">
                   {notice}
@@ -186,7 +207,7 @@ export function ChatWidget() {
                 </button>
               </div>
               <p className="mt-2 px-1 text-[0.68rem] leading-snug text-mist/80">
-                AI concierge · answers may be imperfect · not financial advice. For quotes, speak to a specialist.
+                {DISCLAIMER[mode]}
               </p>
             </form>
           </motion.section>
