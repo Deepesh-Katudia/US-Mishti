@@ -34,14 +34,6 @@ export function Inquiry({ defaultKind = "retail", headingLevel = "h2" }: Inquiry
               </dd>
             </div>
             <div>
-              <dt className="eyebrow text-[0.62rem] text-mist">Phone</dt>
-              <dd className="mt-1 text-lg">
-                <a href={`tel:${SITE.contact.phone.replace(/[^+\d]/g, "")}`} className="transition-colors hover:text-gold">
-                  {SITE.contact.phone}
-                </a>
-              </dd>
-            </div>
-            <div>
               <dt className="eyebrow text-[0.62rem] text-mist">Hours</dt>
               <dd className="mt-1 text-ivory/80">{SITE.contact.hours}</dd>
             </div>

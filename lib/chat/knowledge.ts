@@ -46,6 +46,6 @@ Insured shipping partners: ${LOGISTICS.join(", ")}. Orders can be consolidated i
 Markets served: ${MARKETS.join(", ")}.
 
 ## Contact
-Email ${SITE.contact.email} · Phone ${SITE.contact.phone} · ${SITE.contact.address} · ${SITE.contact.hours}.
+Email ${SITE.contact.email} · ${SITE.contact.address} · ${SITE.contact.hours}.
 Trade accounts: /contact?kind=trade · Private consultations: /contact?kind=retail`;
 }

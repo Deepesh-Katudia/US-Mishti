@@ -14,7 +14,6 @@ export const SITE = {
   },
   contact: {
     email: "usmishtilimited@gmail.com",
-    phone: "+1 (212) 555-0147",
     address: "Diamond District, 47th Street, New York, NY 10036",
     hours: "Mon – Fri · 9:00 – 18:00 ET",
   },

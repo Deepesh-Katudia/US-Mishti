@@ -82,7 +82,7 @@ const ANSWERS = {
     `${SITE.description}\n\n${SITE.legalName} is the American house of ${SITE.parent.name}, based in ${SITE.parent.address}.`,
   contact:
     `You can reach a specialist at /contact, or directly:\n\n` +
-    bullets([`Email: ${SITE.contact.email}`, `Phone: ${SITE.contact.phone}`, `Hours: ${SITE.contact.hours}`]),
+    bullets([`Email: ${SITE.contact.email}`, `Hours: ${SITE.contact.hours}`]),
   fallback:
     `I'm a simple concierge with pre-written answers, so I didn't catch that one. I can help with:\n\n` +
     bullets([
