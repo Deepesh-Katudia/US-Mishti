@@ -120,7 +120,7 @@ describe("buildKnowledgeBase", () => {
 
   it("covers collections, shapes, certifications and contact details", () => {
     const kb = buildKnowledgeBase();
-    for (const term of ["Lab-Grown Diamonds", "Marquise", "GIA", "Hatton Garden", "hello@usmishti.com"]) {
+    for (const term of ["Lab-Grown Diamonds", "Marquise", "GIA", "Hatton Garden", "usmishtilimited@gmail.com"]) {
       expect(kb).toContain(term);
     }
   });
